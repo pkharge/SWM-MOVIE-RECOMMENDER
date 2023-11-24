@@ -71,8 +71,9 @@ function App() {
                     sx={{
                         backgroundColor: 'white',
                         width: '25vw',
-                        height: 40,
-                        padding: '5px'
+                        height: 45,
+                        padding: '5px',
+                        paddingTop:'10px'
                     }} variant = "outlined" >
                     <TextField
                         style = {{backgroundColor: 'white', width: '100%', alignContent: 'center'}}
