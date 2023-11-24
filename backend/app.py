@@ -8,16 +8,14 @@ matric_factorization_df = pd.read_csv('./file2.csv')
 knn_df = pd.read_csv('./file1.csv')
 dff = pd.read_csv("./images_url.csv", encoding = "ISO-8859-1")
 
-# @app.route('/homepage', methods=['GET'])
-# def homepage():
-#     return render_template('index.html')
-
-@app.route('/fetch_recommend', methods=['POST'])
+@app.route('/fetch_recommend', methods=['GET'])
 def fetch_recommendation():
-    try:
-        user_id = int(request.form['user_id'])
 
-        if 0 <user_id <611:
+    try:
+        # Get user_id from query parameters
+        user_id = int(request.args.get('user_id'))        
+
+        if 0 < user_id <611:
             matrix_data = list(matric_factorization_df.iloc[user_id-1])
             knn_data = list(knn_df.iloc[user_id-1])
             data2 = dff.values.tolist()
@@ -42,11 +40,10 @@ def fetch_recommendation():
             }
 
             return jsonify(user_movies)
-            # return render_template('portfolio-details.html', matrix_data=matrix_send_data, knn_data =knn_send_data )
         else:
             raise UserIDException(user_id)
     except UserIDException as e:
-        return "Please enter a userid between 1 and 610, your userid was" + str(e.value)
+        return "Please enter a userid between 1 and 610, your userid was: " + str(e.value)
 
 
 class UserIDException(Exception):
