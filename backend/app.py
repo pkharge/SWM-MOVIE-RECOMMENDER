@@ -8,8 +8,8 @@ matric_factorization_df = pd.read_csv('./file2.csv')
 knn_df = pd.read_csv('./file1.csv')
 dff = pd.read_csv("./images_url.csv", encoding = "ISO-8859-1")
 
-@app.route('/fetch_recommend', methods=['GET'])
-def fetch_recommendation():
+@app.route('/movies', methods=['GET'])
+def fetch_recommendations():
 
     try:
         # Get user_id from query parameters
