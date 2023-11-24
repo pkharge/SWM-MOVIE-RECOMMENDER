@@ -10,7 +10,7 @@ function ModalContent({heading, data}) {
     return (
         <div>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-                <h1>heading</h1>
+                <h1>{heading}</h1>
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <Grid2 item xs={12}>
@@ -119,7 +119,7 @@ function App() {
             }} >
                 <div className="modal-content" >
                     <ModalContent heading = "Matrix Factorization" data={[0, 1, 2,3,4,5,6,7,8,9]} />
-                    <ModalContent heading = "KNN" data={[0, 1, 2,3,4,5,6,7,8,9]} />
+                    <ModalContent heading = "K-Nearest Neighbor" data={[0, 1, 2,3,4,5,6,7,8,9]} />
                     <Button
                         style={{
                             position: 'absolute',
