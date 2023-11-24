@@ -5,6 +5,36 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {red500, redA700} from "mui/source/styles/colors";
 import {useState} from "react";
 
+
+function ModalContent({heading, data}) {
+    return (
+        <div>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+                <h1>{heading}</h1>
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <Grid2 item xs={12}>
+                    <Grid2 container justifyContent="center" spacing={3}>
+                        {data.map((value) => (
+                            <Grid2 key={value} item>
+                                <Paper
+                                    sx={{
+                                        height: 160,
+                                        width: '10vw',
+                                        backgroundColor: (theme) =>
+                                            theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                                    }}
+                                />
+                            </Grid2>
+                        ))}
+                    </Grid2>
+                </Grid2>
+            </Typography>
+        </div>
+
+    );
+}
+
 function App() {
 
     const [open, setOpen] = useState(false);
@@ -14,7 +44,8 @@ function App() {
     }
     const handleClose = () => setOpen(false);
 
-  return (
+
+   return (
     <div style = {{
       backgroundImage: `url(${backgroundImage})`,
       backgroundPosition: 'center',
@@ -87,48 +118,8 @@ function App() {
 
             }} >
                 <div className="modal-content" >
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        <h1>Matrix Factorization</h1>
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        <Grid2 item xs={12}>
-                            <Grid2 container justifyContent="center" spacing={3}>
-                                {[0, 1, 2,3,4,5,6,7,8,9].map((value) => (
-                                    <Grid2 key={value} item>
-                                        <Paper
-                                            sx={{
-                                                height: 140,
-                                                width: '10vw',
-                                                backgroundColor: (theme) =>
-                                                    theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                                            }}
-                                        />
-                                    </Grid2>
-                                ))}
-                            </Grid2>
-                        </Grid2>
-                    </Typography>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        <h1>KNN</h1>
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        <Grid2 item xs={12}>
-                            <Grid2 container justifyContent="stretch" spacing={3}>
-                                {[0, 1, 2,3,4,5,6,7,8,9].map((value) => (
-                                    <Grid2 key={value} item>
-                                        <Paper
-                                            sx={{
-                                                height: 160,
-                                                width: '10vw',
-                                                backgroundColor: (theme) =>
-                                                    theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                                            }}
-                                        />
-                                    </Grid2>
-                                ))}
-                            </Grid2>
-                        </Grid2>
-                    </Typography>
+                    <ModalContent heading = "Matrix Factorization" data={[0, 1, 2,3,4,5,6,7,8,9]} />
+                    <ModalContent heading = "K-Nearest Neighbor" data={[0, 1, 2,3,4,5,6,7,8,9]} />
                     <Button
                         style={{
                             position: 'absolute',
@@ -145,8 +136,6 @@ function App() {
                         Close
                     </Button>
                 </div>
-
-
             </Box>
 
         </Modal>
