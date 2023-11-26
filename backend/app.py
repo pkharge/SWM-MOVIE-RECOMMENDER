@@ -1,9 +1,11 @@
-from flask import Flask, flash, request, jsonify, redirect, url_for, render_template
 import pandas as pd
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config["Debug"] = True
-
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 matric_factorization_df = pd.read_csv('./file2.csv')
 knn_df = pd.read_csv('./file1.csv')
 dff = pd.read_csv("./images_url.csv", encoding = "ISO-8859-1")
@@ -38,7 +40,6 @@ def fetch_recommendations():
                 "matrix_fact": matrix_send_data,
                 "knn": knn_send_data
             }
-
             return jsonify(user_movies)
         else:
             raise UserIDException(user_id)
