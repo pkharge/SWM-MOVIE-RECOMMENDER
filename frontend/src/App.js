@@ -112,25 +112,29 @@ function App() {
                 transform: 'translate(-50%, -50%)',
                 width: '80vw',
                 height: '80vh',
+                overflowY: 'auto',
                 bgcolor: 'background.paper',
                 border: '9px double #FF0000',
                 boxShadow: 24,
                 p: 5,
-
             }} >
+
                 <div className="modal-content" >
                     <ModalContent heading = "Matrix Factorization" data={[0, 1, 2,3,4,5,6,7,8,9]} />
                     <ModalContent heading = "K-Nearest Neighbor" data={[0, 1, 2,3,4,5,6,7,8,9]} />
                     <Button
                         style={{
-                            position: 'absolute',
-                            bottom: '5%',
-                            left: '42%',
-                            width: '200px',
-                            backgroundColor: red500,
-                            '&:hover': {
-                                backgroundColor: redA700,
-                            }}}
+                            border: "none",
+                            display: "inline-block",
+                            padding: "8px 16px",
+                            verticalAlign: "middle",
+                            overflow: "hidden",
+                            backgroundColor: "#f54842",
+                            textAlign: "center",
+                            marginTop: "25px",
+                            cursor: "pointer",
+                            width:150
+                            }}
                         variant="contained"
                         onClick = {handleClose}
                     >
