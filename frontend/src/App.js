@@ -4,6 +4,7 @@ import { TextField, Card, Button, Box, Typography, Modal, Paper } from "@mui/mat
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { red500, redA700 } from "mui/source/styles/colors";
 import { useState } from "react";
+import { CardMedia, Grid } from '@mui/material';
 
 
 function ModalContent({ heading, data }) {
@@ -49,12 +50,17 @@ function App() {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('GET', 'POST', 'OPTIONS');
-        const response = await fetch(urlWithQuery, {
+        fetch(urlWithQuery, {
             method: 'GET',
             headers: headers,
         }).then(response => {
-            console.log(response.json());
-            setApiData(response.json());
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        }).then(data => {
+            console.log('Data:', data);
+            setApiData(data);
         });
 
         setOpen(true);
@@ -143,8 +149,51 @@ function App() {
                 }} >
 
                     <div className="modal-content" >
-                        <ModalContent heading="Matrix Factorization" data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} />
-                        <ModalContent heading="K-Nearest Neighbor" data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} />
+                        {open ? (
+                            <div style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                                <h1>Matrix Factorization</h1>
+                                <Grid container spacing={2} flexDirection="row">
+                                    {apiData && apiData['matrix_fact'].map((imageName, index) => (
+                                        <>
+                                            <Grid item key={index}>
+                                                <Card>
+                                                    <CardMedia
+                                                        component="img"
+                                                        alt={`Image ${index + 1}`}
+                                                        height="170"
+                                                        image={`${imageName}`}
+                                                    />
+                                                </Card>
+                                                <h3>{imageName}</h3>
+                                            </Grid>
+                                        </>
+                                    ))}
+                                </Grid >
+                                <h1>K Nearest Neighbor</h1>
+                                <Grid container spacing={2} flexDirection="row">
+                                    {apiData && apiData['knn'].map((imageName, index) => (
+                                        <>
+                                            <Grid item key={index} >
+                                                <Card>
+                                                    <CardMedia
+                                                        component="img"
+                                                        alt={`Image ${index + 1}`}
+                                                        height="170"
+                                                        image={`${imageName}`}
+                                                    />
+                                                </Card>
+                                                <h3>{imageName}</h3>
+                                            </Grid >
+                                        </>
+                                    ))}
+                                </Grid >
+                            </div>
+                        ) : (
+                            <div>
+                                <ModalContent heading="Matrix Factorization" data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} />
+                                <ModalContent heading="K-Nearest Neighbor" data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} />
+                            </div>
+                        )}
                         <Button
                             style={{
                                 border: "none",
@@ -168,7 +217,7 @@ function App() {
 
             </Modal>
 
-        </div>
+        </div >
     );
 }
 

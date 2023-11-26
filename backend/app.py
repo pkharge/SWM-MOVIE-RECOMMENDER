@@ -29,12 +29,12 @@ def fetch_recommendations():
                 for y in data2:
                     if str(x) in y:
                         print([y[0], y[1]])
-                        matrix_send_data.append([y[0], y[1]])
+                        matrix_send_data.append(y[1])
             for x in knn_data:
                 for y in data2:
                     if str(x) in y:
                         print([y[0], y[1]])
-                        knn_send_data.append([y[0], y[1]])
+                        knn_send_data.append(y[1])
             
             user_movies = {
                 "matrix_fact": matrix_send_data,
