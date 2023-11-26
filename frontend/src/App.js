@@ -113,6 +113,7 @@ function App() {
                 width: '80vw',
                 height: '80vh',
                 overflowY: 'auto',
+                overflowY: 'auto',
                 bgcolor: 'background.paper',
                 border: '9px double #FF0000',
                 boxShadow: 24,
