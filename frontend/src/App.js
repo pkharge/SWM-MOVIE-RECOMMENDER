@@ -1,12 +1,12 @@
 import './App.css';
 import backgroundImage from './images/bg1.jpeg'
-import {TextField, Card, Button, Box, Typography, Modal, Paper} from "@mui/material";
+import { TextField, Card, Button, Box, Typography, Modal, Paper } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {red500, redA700} from "mui/source/styles/colors";
-import {useState} from "react";
+import { red500, redA700 } from "mui/source/styles/colors";
+import { useState } from "react";
 
 
-function ModalContent({heading, data}) {
+function ModalContent({ heading, data }) {
     return (
         <div>
             <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -38,115 +38,138 @@ function ModalContent({heading, data}) {
 function App() {
 
     const [open, setOpen] = useState(false);
-    const handleOpen = () => {
-        console.log("asdfasdf");
+    const [inputValue, setInputValue] = useState('');
+    const [apiData, setApiData] = useState(undefined);
+
+    async function handleOpen() {
+        console.log("Input value = ", inputValue);
+        const apiUrl = 'http://127.0.0.1:5000/movies';
+        const queryParameter = inputValue;
+        const urlWithQuery = `${apiUrl}?user_id=${encodeURIComponent(queryParameter)}`;
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('GET', 'POST', 'OPTIONS');
+        const response = await fetch(urlWithQuery, {
+            method: 'GET',
+            headers: headers,
+        }).then(response => {
+            console.log(response.json());
+            setApiData(response.json());
+        });
+
         setOpen(true);
     }
+
     const handleClose = () => setOpen(false);
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
 
+    return (
+        <div style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            verticalAlign: "middle"
+        }}>
 
-   return (
-    <div style = {{
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      width: '100vw',
-      height: '100vh',
-        display: 'flex',
-        justifyContent:'center',
-        alignItems:'center',
-        verticalAlign:"middle"
-    }}>
+            <Grid2
+                container
+                direction="column"
+                spacing={3}
+                alignItems="center"
 
-        <Grid2
-            container
-            direction="column"
-            spacing={3}
-            alignItems="center"
-
-        >
-            <Grid2 item xs>
-                <Card
-                    sx={{
-                        backgroundColor: 'white',
-                        width: '25vw',
-                        height: 45,
-                        padding: '5px',
-                        paddingTop:'10px'
-                    }} variant = "outlined" >
-                    <TextField
-                        style = {{backgroundColor: 'white', width: '100%', alignContent: 'center'}}
-                        id="outlined-size-small"
-                        label="Please enter user id"
-                        size="small"
-                        type={'text'}
-                    />
-                </Card>
-            </Grid2>
-        <Grid2 item s>
-            <Button
-                style={{
-                width: '200px',
-                backgroundColor: red500,
-                '&:hover': {
-                    backgroundColor: redA700,
-                }}}
-                variant="contained"
-                onClick={handleOpen}
             >
-                Recommend Movie
-            </Button>
-        </Grid2>
-        </Grid2>
-        <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '80vw',
-                height: '80vh',
-                overflowY: 'auto',
-                bgcolor: 'background.paper',
-                border: '9px double #FF0000',
-                boxShadow: 24,
-                p: 5,
-            }} >
-
-                <div className="modal-content" >
-                    <ModalContent heading = "Matrix Factorization" data={[0, 1, 2,3,4,5,6,7,8,9]} />
-                    <ModalContent heading = "K-Nearest Neighbor" data={[0, 1, 2,3,4,5,6,7,8,9]} />
+                <Grid2 item xs>
+                    <Card
+                        sx={{
+                            backgroundColor: 'white',
+                            width: '25vw',
+                            height: 45,
+                            padding: '5px',
+                            paddingTop: '10px'
+                        }} variant="outlined" >
+                        <TextField
+                            style={{ backgroundColor: 'white', width: '100%', alignContent: 'center' }}
+                            id="outlined-size-small"
+                            label="Please enter user id"
+                            size="small"
+                            type={'text'}
+                            inputValue={inputValue}
+                            onChange={handleInputChange}
+                        />
+                    </Card>
+                </Grid2>
+                <Grid2 item s>
                     <Button
                         style={{
-                            border: "none",
-                            display: "inline-block",
-                            padding: "8px 16px",
-                            verticalAlign: "middle",
-                            overflow: "hidden",
-                            backgroundColor: "#f54842",
-                            textAlign: "center",
-                            marginTop: "25px",
-                            cursor: "pointer",
-                            width:150
-                            }}
+                            width: '200px',
+                            backgroundColor: red500,
+                            '&:hover': {
+                                backgroundColor: redA700,
+                            }
+                        }}
                         variant="contained"
-                        onClick = {handleClose}
+                        onClick={handleOpen}
                     >
-                        Close
+                        Recommend Movie
                     </Button>
-                </div>
-            </Box>
+                </Grid2>
+            </Grid2>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '80vw',
+                    height: '80vh',
+                    overflowY: 'auto',
+                    bgcolor: 'background.paper',
+                    border: '9px double #FF0000',
+                    boxShadow: 24,
+                    p: 5,
+                }} >
 
-        </Modal>
+                    <div className="modal-content" >
+                        <ModalContent heading="Matrix Factorization" data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} />
+                        <ModalContent heading="K-Nearest Neighbor" data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} />
+                        <Button
+                            style={{
+                                border: "none",
+                                display: "inline-block",
+                                padding: "8px 16px",
+                                verticalAlign: "middle",
+                                overflow: "hidden",
+                                backgroundColor: "#f54842",
+                                textAlign: "center",
+                                marginTop: "25px",
+                                cursor: "pointer",
+                                width: 150
+                            }}
+                            variant="contained"
+                            onClick={handleClose}
+                        >
+                            Close
+                        </Button>
+                    </div>
+                </Box>
 
-    </div>
-  );
+            </Modal>
+
+        </div>
+    );
 }
 
 export default App;
