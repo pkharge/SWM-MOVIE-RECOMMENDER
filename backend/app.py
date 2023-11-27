@@ -26,16 +26,28 @@ def fetch_recommendations():
             knn_send_data = []
 
             for x in matrix_data:
+                image_found = False
                 for y in data2:
                     if str(x) in y:
+                        image_found = True
                         print([y[0], y[1]])
-                        matrix_send_data.append(y[1])
+                        matrix_send_data.append([y[0], y[1]])
+                        break
+                if not image_found:
+                    matrix_send_data.append([str(x), "no-image.jpeg"])
+                
             for x in knn_data:
+                image_found = False
                 for y in data2:
                     if str(x) in y:
+                        image_found = True
                         print([y[0], y[1]])
-                        knn_send_data.append(y[1])
-            
+                        knn_send_data.append([y[0], y[1]])
+                        break
+                if not image_found:
+                    knn_send_data.append([str(x), "no-image.jpeg"])
+            knn_send_data = sorted(knn_send_data)
+            matrix_send_data = sorted(matrix_send_data)
             user_movies = {
                 "matrix_fact": matrix_send_data,
                 "knn": knn_send_data
