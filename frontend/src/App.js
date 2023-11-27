@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { red500, redA700 } from "mui/source/styles/colors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CardMedia, Grid } from "@mui/material";
 
 function ModalContent({ heading, data }) {
@@ -212,34 +212,41 @@ function App() {
 														item
 														key={index}
 													>
-														<Card
-															elevation={
-																CARD_ELEVATION
-															}
-															sx={{
-																":hover": {
-																	boxShadow: 2, // theme.shadows[20]
-																},
-															}}
-															style={{
-																// border: "2px dashed black",
-																maxWidth:
-																	"200px",
-															}}
+														<a
+															href={`${imageName[2]}`}
+															target="_blank"
 														>
-															<CardMedia
-																component="img"
-																alt={`Image ${
-																	index + 1
-																}`}
-																height="300"
-																width="170"
-																image={`${imageName[1]}`}
-															/>
-														</Card>
-														<h3 className="heading-wrapping">
-															{imageName[0]}
-														</h3>
+															<Card
+																elevation={
+																	CARD_ELEVATION
+																}
+																sx={{
+																	":hover": {
+																		boxShadow: 2, // theme.shadows[20]
+																	},
+																}}
+																style={{
+																	// border: "2px dashed black",
+																	maxWidth:
+																		"200px",
+																}}
+															>
+																<CardMedia
+																	component="img"
+																	alt={`Image ${
+																		index +
+																		1
+																	}`}
+																	height="300"
+																	width="170"
+																	image={`${imageName[1]}`}
+																/>
+															</Card>
+
+															<h3 className="heading-wrapping">
+																{imageName[0]}
+															</h3>
+														</a>
 													</Grid>
 												</>
 											)
@@ -259,34 +266,44 @@ function App() {
 														item
 														key={index}
 													>
-														<Card
-															elevation={
-																CARD_ELEVATION
-															}
-															sx={{
-																":hover": {
-																	boxShadow: 2, // theme.shadows[20]
-																},
-															}}
-															style={{
-																// border: "2px dashed black",
-																maxWidth:
-																	"200px",
-															}}
+														<a
+															href={`${imageName[2]}`}
+															target="_blank"
 														>
-															<CardMedia
-																component="img"
-																alt={`Image ${
-																	index + 1
-																}`}
-																height="300"
-																width="170"
-																image={`${imageName[1]}`}
-															/>
-														</Card>
-														<h3 className="heading-wrapping">
+															<Card
+																elevation={
+																	CARD_ELEVATION
+																}
+																sx={{
+																	":hover": {
+																		boxShadow: 2, // theme.shadows[20]
+																	},
+																}}
+																style={{
+																	// border: "2px dashed black",
+																	maxWidth:
+																		"200px",
+																}}
+															>
+																<CardMedia
+																	component="img"
+																	alt={`Image ${
+																		index +
+																		1
+																	}`}
+																	height="300"
+																	width="170"
+																	image={`${imageName[1]}`}
+																/>
+															</Card>
+
+															<h3 className="heading-wrapping">
+																{imageName[0]}
+															</h3>
+														</a>
+														{/* <h3 className="heading-wrapping">
 															{imageName[0]}
-														</h3>
+														</h3> */}
 													</Grid>
 												</>
 											)

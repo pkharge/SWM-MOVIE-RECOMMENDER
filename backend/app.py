@@ -6,57 +6,60 @@ app = Flask(__name__)
 app.config["Debug"] = True
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-matric_factorization_df = pd.read_csv('./file2.csv')
-knn_df = pd.read_csv('./file1.csv')
-dff = pd.read_csv("./images_url.csv", encoding = "ISO-8859-1")
+
+data_matrix_factor_method = pd.read_csv('./recommend_matrix.csv')
+data_knn_method = pd.read_csv('./recommend_knn.csv')
+data_ui_image_url = pd.read_csv("./ui_images.csv", encoding = "ISO-8859-1")
 
 @app.route('/movies', methods=['GET'])
 def fetch_recommendations():
-
     try:
         # Get user_id from query parameters
         user_id = int(request.args.get('user_id'))        
 
-        if 0 < user_id <611:
-            matrix_data = list(matric_factorization_df.iloc[user_id-1])
-            knn_data = list(knn_df.iloc[user_id-1])
-            data2 = dff.values.tolist()
+        if 0 < user_id < 500:
+            data_matrix_factor_list = list(data_matrix_factor_method.iloc[user_id-1])
+            data_knn_list = list(data_knn_method.iloc[user_id-1])
+            data_ui_image_url_list = data_ui_image_url.values.tolist()
 
-            matrix_send_data = []
-            knn_send_data = []
+            data_matrix_factor_json_list = []
+            data_knn_json_list = []
 
-            for x in matrix_data:
+            for recommends in data_matrix_factor_list:
                 image_found = False
-                for y in data2:
-                    if str(x) in y:
+                for images in data_ui_image_url_list:
+                    if str(recommends) in images:
                         image_found = True
-                        print([y[0], y[1]])
-                        matrix_send_data.append([y[0], y[1]])
+                        print([images[0], images[1], images[2]])
+                        data_matrix_factor_json_list.append([images[0], images[1], images[2]])
                         break
                 if not image_found:
-                    matrix_send_data.append([str(x), "no-image.jpeg"])
+                    data_matrix_factor_json_list.append([str(recommends), "no-image.jpeg"])
                 
-            for x in knn_data:
+            for recommends in data_knn_list:
                 image_found = False
-                for y in data2:
-                    if str(x) in y:
+                for images in data_ui_image_url_list:
+                    if str(recommends) in images:
                         image_found = True
-                        print([y[0], y[1]])
-                        knn_send_data.append([y[0], y[1]])
+                        print([images[0], images[1], images[2]])
+                        data_knn_json_list.append([images[0], images[1], images[2]])
                         break
                 if not image_found:
-                    knn_send_data.append([str(x), "no-image.jpeg"])
-            knn_send_data = sorted(knn_send_data)
-            matrix_send_data = sorted(matrix_send_data)
+                    data_knn_json_list.append([str(recommends), "no-image.jpeg"])
+
+            data_knn_json_list = sorted(data_knn_json_list)
+            data_matrix_factor_json_list = sorted(data_matrix_factor_json_list)
+
             user_movies = {
-                "matrix_fact": matrix_send_data,
-                "knn": knn_send_data
+                "matrix_fact": data_matrix_factor_json_list,
+                "knn": data_knn_json_list
             }
+
             return jsonify(user_movies)
         else:
             raise UserIDException(user_id)
     except UserIDException as e:
-        return "Please enter a userid between 1 and 610, your userid was: " + str(e.value)
+        return "User ID must be between 1 to 500. Invalid User ID: " + str(e.value)
 
 
 class UserIDException(Exception):
